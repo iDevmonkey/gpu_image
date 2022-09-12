@@ -125,8 +125,58 @@ class FilterUtil : NSObject{
             filter.shadows = Float(dict.value(forKey: "shadows") as! Double)
             filter.highlights = Float(dict.value(forKey: "highlights") as! Double)
              return filter
+        case "group":
+            let filter = GroupFilter()
+            
+            let list = dict.value(forKey: "value") as! NSArray
+            
+            list.forEach { d in
+                let f = getFilter(dict: d as! NSDictionary);
+                if (f != nil) {
+                    filter.filters.append(f!)
+                }
+            }
+            
+            return filter
         default:
             return nil
         }
+    }
+}
+
+public class GroupFilter: BasicOperation {
+    public var filters:[BasicOperation] = []
+        
+    public init() {
+        super.init(fragmentShader:CGAColorspaceFragmentShader, numberOfInputs:1)
+        
+        ({filters = []})()
+    }
+    
+    public func apply(input: ImageSource, output: Any?) {
+        if (filters.count <= 0) {
+            return;
+        }
+        
+        input --> filters.first!
+        var i = filters.first!
+        
+        if (filters.count > 1) {
+            for (index, element) in filters.enumerated() {
+                if (index > 0) {
+                    i --> element
+                    i = element
+                }
+            }
+        }
+        
+        if (output != nil) {
+            if (output is RenderView) {
+                i --> (output as! RenderView)
+            } else if (output is MovieOutput) {
+                i --> (output as! MovieOutput)
+            }
+        }
+
     }
 }

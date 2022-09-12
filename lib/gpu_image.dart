@@ -25,6 +25,7 @@ part 'filter/gpu_saturation_filter.dart';
 part 'filter/gpu_sepia_filter.dart';
 part 'filter/gpu_sharpen_filter.dart';
 part 'filter/gpu_whitebalance_filter.dart';
+part 'filter/gpu_group_filter.dart';
 part 'gpu_callback.dart';
 part 'gpu_code.dart';
 part 'widget/gpu_camera_widget.dart';

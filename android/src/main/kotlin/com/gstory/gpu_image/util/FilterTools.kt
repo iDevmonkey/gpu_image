@@ -3,6 +3,8 @@ package com.gstory.gpu_image.util
 import android.util.Log
 import io.flutter.plugin.common.MethodCall
 import jp.co.cyberagent.android.gpuimage.filter.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * @Author: gstory
@@ -106,6 +108,19 @@ object FilterTools {
                 (arguments["shadows"] as Double).toFloat(),
                 (arguments["highlights"] as Double).toFloat()
             )
+            "group" -> {
+                val filters = ArrayList<GPUImageFilter>()
+
+                val list = arguments["value"] as ArrayList<Map<*, *>>
+                list.forEach {
+                    val filter = getFilter(it)
+                    if (filter != null) {
+                        filters.add(filter);
+                    }
+                }
+
+                return GPUImageFilterGroup(filters.toList());
+            }
             else -> GPUImageFilter()
         }
     }

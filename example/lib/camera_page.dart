@@ -41,18 +41,17 @@ class _CameraPageState extends State<CameraPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        alignment: Alignment.bottomCenter,
+      body: Column(
         children: [
-          GPUCameraWidget(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            controller: _controller,
+          Expanded(
+            child: GPUCameraWidget(
+              width: MediaQuery.of(context).size.width,
+              controller: _controller,
+            ),
           ),
-          Positioned(
-            bottom: 50,
-            left: 30,
-            right: 30,
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 100.0,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.end,

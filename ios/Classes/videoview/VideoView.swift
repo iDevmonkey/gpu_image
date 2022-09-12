@@ -60,7 +60,11 @@ public class VideoView : NSObject,FlutterPlatformView{
             if(filter == nil){
                 movie --> renderView
             }else{
-                movie --> filter --> renderView
+                if (filter is GroupFilter) {
+                    (filter as! GroupFilter).apply(input: movie, output: renderView)
+                } else {
+                    movie --> filter --> renderView
+                }
             }
             movie.runBenchmark = false
             movie.start()
@@ -86,7 +90,11 @@ public class VideoView : NSObject,FlutterPlatformView{
         self.renderView.sources.removeAtIndex(0)
         self.filter = filter
         if(self.filter != nil){
-            self.movie --> self.filter --> self.renderView
+            if (self.filter is GroupFilter) {
+                (self.filter as! GroupFilter).apply(input: self.movie, output: self.renderView)
+            } else {
+                self.movie --> self.filter --> self.renderView
+            }
         }else{
             self.movie  --> self.renderView
         }
@@ -101,7 +109,11 @@ public class VideoView : NSObject,FlutterPlatformView{
         self.filter?.removeAllTargets()
         self.renderView.sources.removeAtIndex(0)
         if(self.filter != nil){
-            self.movie --> self.filter --> self.renderView
+            if (self.filter is GroupFilter) {
+                (self.filter as! GroupFilter).apply(input: self.movie, output: self.renderView)
+            } else {
+                self.movie --> self.filter --> self.renderView
+            }
         }else{
             self.movie  --> self.renderView
         }

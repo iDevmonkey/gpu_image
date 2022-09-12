@@ -14,9 +14,10 @@ class FilterList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: MediaQuery.of(context).size.width,
       height: 60,
+      color: Colors.grey,
       child: ListView(
         shrinkWrap: false,
         scrollDirection: Axis.horizontal,
@@ -118,6 +119,16 @@ class FilterList extends StatelessWidget {
                 callBack(GPUHighlightsShadowsFilter(highlights: 1.5,shadows: 0.5));
               },
               child: const Text("阴影高光")),
+          TextButton(
+              onPressed: () {
+                callBack(GPUGroupFilter(
+                  filters: [
+                    GPUContrastFilter(contrast: 4.0),
+                    GPUBrightnessFilter(brightness: 0.6),
+                  ],
+                ));
+              },
+              child: const Text("滤镜组")),
         ],
       ),
     );

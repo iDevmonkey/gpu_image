@@ -78,7 +78,11 @@ public class ImageView : NSObject,FlutterPlatformView{
         self.renderView.sources.removeAtIndex(0)
         self.filter = filter
         if(self.filter != nil){
-            self.picture --> self.filter --> self.renderView
+            if (self.filter is GroupFilter) {
+                (self.filter as! GroupFilter).apply(input: self.picture, output: self.renderView)
+            } else {
+                self.picture --> self.filter --> self.renderView
+            }
         }else{
             self.picture  --> self.renderView
         }

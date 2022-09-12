@@ -69,7 +69,11 @@ public class CameraView : NSObject,FlutterPlatformView{
         self.renderView.sources.removeAtIndex(0)
         self.filter = filter
         if(self.filter != nil ){
-            self.camera --> self.filter --> self.renderView
+            if (self.filter is GroupFilter) {
+                (self.filter as! GroupFilter).apply(input: self.camera, output: self.renderView)
+            } else {
+                self.camera --> self.filter --> self.renderView
+            }
         }else{
             self.camera  --> self.renderView
         }
@@ -113,7 +117,11 @@ public class CameraView : NSObject,FlutterPlatformView{
                 if(self.filter == nil){
                     self.camera --> movieOutput!
                 }else{
-                    self.camera --> filter --> movieOutput!
+                    if (self.filter is GroupFilter) {
+                        (self.filter as! GroupFilter).apply(input: self.camera, output: movieOutput)
+                    } else {
+                        self.camera --> filter --> movieOutput!
+                    }
                 }
                 movieOutput!.startRecording()
                 let map : NSDictionary = ["recordStatus":"startRecord",
@@ -171,7 +179,11 @@ public class CameraView : NSObject,FlutterPlatformView{
                 }
                 self.renderView.sources.removeAtIndex(0)
                 if(self.filter != nil ){
-                    self.camera --> self.filter --> self.renderView
+                    if (self.filter is GroupFilter) {
+                        (self.filter as! GroupFilter).apply(input: self.camera, output: self.renderView)
+                    } else {
+                        self.camera --> self.filter --> self.renderView
+                    }
                 }else{
                     self.camera  --> self.renderView
                 }
