@@ -48,8 +48,7 @@ public class ImageView : NSObject,FlutterPlatformView{
             let image = UIImage(data: data! as Data)
             picture = PictureInput(image:image!)
         }else{
-            guard let outputPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first else { return }
-            let photoPath = outputPath + "/" + path
+            let photoPath = path
             print(photoPath)
             if let image = UIImage(contentsOfFile: photoPath) {
                 picture = PictureInput(image:image)
